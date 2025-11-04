@@ -1,4 +1,4 @@
-/*! elementor-pro - v3.26.0 - 07-01-2025 */
+/*! elementor-pro - v3.32.0 - 21-10-2025 */
 "use strict";
 (self["webpackChunkelementor_pro"] = self["webpackChunkelementor_pro"] || []).push([["elements-handlers"],{
 
@@ -320,7 +320,7 @@ class ModalKeyboardHandler {
     }
   }
   setFocusToElement(element) {
-    const focusDelayToEnsureThatAllAnimationsHaveFinished = 100;
+    const focusDelayToEnsureThatAllAnimationsHaveFinished = 'popup' === this.config.modalType ? 250 : 100;
     setTimeout(() => {
       element?.focus();
     }, focusDelayToEnsureThatAllAnimationsHaveFinished);
@@ -870,7 +870,7 @@ class BaseFilterFrontendModule extends elementorModules.Module {
       const existingWidgetContainer = widget.querySelector('.elementor-widget-container'),
         newWidgetContainer = this.createElementFromHTMLString(response.data);
       widget.replaceChild(newWidgetContainer, existingWidgetContainer);
-      this.handleElementHandlers(newWidgetContainer);
+      this.handleElementHandlers(widget);
       if (ElementorProFrontendConfig.settings.lazy_load_background_images) {
         document.dispatchEvent(new Event('elementor/lazyload/observe'));
       }
@@ -2671,7 +2671,7 @@ exports["default"] = void 0;
 class _default extends elementorModules.Module {
   constructor() {
     super();
-    elementorFrontend.elementsHandler.attachHandler('table-of-contents', () => Promise.all(/*! import() | table-of-contents */[__webpack_require__.e("vendors-node_modules_dompurify_dist_purify_js"), __webpack_require__.e("table-of-contents")]).then(__webpack_require__.bind(__webpack_require__, /*! ./handlers/table-of-contents */ "../modules/table-of-contents/assets/js/frontend/handlers/table-of-contents.js")));
+    elementorFrontend.elementsHandler.attachHandler('table-of-contents', () => Promise.all(/*! import() | table-of-contents */[__webpack_require__.e("vendors-node_modules_dompurify_dist_purify_cjs_js"), __webpack_require__.e("table-of-contents")]).then(__webpack_require__.bind(__webpack_require__, /*! ./handlers/table-of-contents */ "../modules/table-of-contents/assets/js/frontend/handlers/table-of-contents.js")));
   }
 }
 exports["default"] = _default;

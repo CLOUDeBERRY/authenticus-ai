@@ -1,4 +1,4 @@
-/*! elementor-pro - v3.26.0 - 07-01-2025 */
+/*! elementor-pro - v3.32.0 - 21-10-2025 */
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
@@ -25,6 +25,7 @@ class Module extends elementorModules.Module {
   }];
   onInit() {
     this.assignMenuItemActions();
+    this.assignProLicenseActivateEvent();
   }
   assignMenuItemActions() {
     window.addEventListener('DOMContentLoaded', () => {
@@ -38,6 +39,28 @@ class Module extends elementorModules.Module {
           window.open(item.external_url, '_blank');
         });
       });
+    });
+  }
+  assignProLicenseActivateEvent() {
+    window.addEventListener('DOMContentLoaded', () => {
+      const activateButton = document.querySelector('.button-primary[href*="elementor-connect"]');
+      if (activateButton) {
+        activateButton.addEventListener('click', () => {
+          if (!window.elementorCommon?.config?.experimentalFeatures?.editor_events) {
+            return;
+          }
+          const eventsManager = window.elementorCommon?.eventsManager || {};
+          const dispatchEvent = eventsManager.dispatchEvent?.bind(eventsManager);
+          const eventName = 'pro_license_activate';
+          const eventData = {
+            app_type: 'editor',
+            location: 'Elementor WP-admin pages',
+            secondaryLocation: 'license page',
+            trigger: 'click'
+          };
+          dispatchEvent?.(eventName, eventData);
+        });
+      }
     });
   }
 }
@@ -1242,6 +1265,13 @@ module.exports = function () {
       }
     });
   });
+  document.querySelector('.e-notice--cta.e-notice--dismissible[data-notice_id="send_app_forms_submissions_notice"] a.e-button--cta')?.addEventListener('click', function () {
+    elementorCommon.ajax.addRequest('elementor_send_app_campaign', {
+      data: {
+        source: 'snd-submission-install'
+      }
+    });
+  });
 };
 
 /***/ }),
@@ -1633,9 +1663,9 @@ module.exports = wp.i18n;
   \***********************************************************************/
 /***/ ((module) => {
 
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : {
-    "default": obj
+function _interopRequireDefault(e) {
+  return e && e.__esModule ? e : {
+    "default": e
   };
 }
 module.exports = _interopRequireDefault, module.exports.__esModule = true, module.exports["default"] = module.exports;
